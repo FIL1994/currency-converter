@@ -5,8 +5,8 @@ functions = 'lambda'
 
 [dev]
 framework = "#custom"
-command = 'npm run start'
+command = 'npm run start:dev'
 targetPort = 5000 # The port for your application server, framework or site generator
-port = 8888 # The port that the netlify dev will be accessible on
+port = 8080 # The port that the netlify dev will be accessible on
 publish = 'public'
 autoLaunch = true # a Boolean value that determines if Netlify Dev launches the local server address in your browser

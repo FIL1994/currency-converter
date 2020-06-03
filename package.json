@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "dev": "netlify dev",
     "start": "sirv --port 5000 public",
     "postinstall": "netlify-lambda install lambdas",
-    "netlify": "netlify dev"
+    "start:dev": "rollup -c -w"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^12.0.0",
