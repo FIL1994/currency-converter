@@ -1,3 +1,4 @@
+require("dotenv").config();
 const axios = require("axios");
 
 exports.handler = async (event, _context) => {
@@ -9,7 +10,6 @@ exports.handler = async (event, _context) => {
   }
 
   const API_KEY = process.env.API_KEY;
-  console.log({ API_KEY });
 
   return {
     statusCode: 200,
