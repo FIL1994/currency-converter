@@ -19,8 +19,8 @@
     "KRW",
     "ILS",
   ].sort();
-  let from = "CAD";
-  let to = "USD";
+  let from = "USD";
+  let to = "CAD";
   let amt = 0;
   let toAmt = null;
 
@@ -28,7 +28,8 @@
     const res = await fetch(
       `/.netlify/functions/convert?from=${from}&to=${to}&amt=${amt}`
     );
-    ({ amt: toAmt } = await res.json());
+    const { amt: resAmt } = await res.json();
+    toAmt = `${amt} ${from} = ${resAmt} ${to}`;
   }
 
   function resetAmt() {
@@ -63,29 +64,38 @@
     </div>
 
     <button type="submit" disabled={!amt}>Convert</button>
-
-    {#if toAmt}
-      <div class="amt" transition:fade>{toAmt}</div>
-    {/if}
   </form>
 </main>
+{#if toAmt}
+  <div class="amt" transition:fade>
+    <div>{toAmt}</div>
+  </div>
+{/if}
 
-<style lang="scss">
+<style type="text/scss">
+  @use "sass:color";
+  $text: color.scale(#0096bfab, $lightness: -30%);
+  $width: 380px;
+  $border-radius: 6px;
+  $background: #fff;
+
   main {
     text-align: center;
     padding: 1em;
-    max-width: 240px;
+    width: $width;
     margin: 0 auto;
-
-    @media (min-width: 640px) {
-      max-width: none;
-    }
+    margin-top: 120px;
+    background: $background;
+    border-radius: $border-radius;
+    box-sizing: border-box;
   }
 
   h1 {
-    color: darkblue;
-    text-transform: uppercase;
-    font-weight: 100;
+    color: $text;
+    font-weight: 200;
+    margin-bottom: 20px;
+    font-size: 36px;
+    font-weight: 300;
   }
 
   form > div {
@@ -99,12 +109,13 @@
   }
 
   select {
-    width: 80px;
+    width: 85px;
+    margin-right: 0;
   }
 
-  input[type="number"],
-  select {
+  input[type="number"] {
     width: 80px;
+    text-align: right;
   }
 
   .to {
@@ -112,12 +123,27 @@
   }
 
   button {
-    margin-top: 10px;
-    margin-bottom: 16px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 8px;
+    width: 310px;
   }
 
   .amt {
-    font-size: 24px;
-    color: darkblue;
+    width: $width;
+    box-sizing: border-box;
+    border-radius: $border-radius;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 12px;
+    background: $background;
+    padding: 12px 0;
+
+    div {
+      font-size: 24px;
+      color: $text;
+      font-weight: 300;
+      margin: 0 18px;
+    }
   }
 </style>
