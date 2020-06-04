@@ -2,23 +2,37 @@
   import { fade } from "svelte/transition";
   import onNumberKeyDown from "./onNumberKeyDown";
 
-  const currencies = ["CAD", "USD", "EUR", "AUD"];
+  const currencies = [
+    "CAD",
+    "USD",
+    "EUR",
+    "AUD",
+    "HKD",
+    "JPY",
+    "GBP",
+    "INR",
+    "RUB",
+    "CNY",
+    "NZD",
+    "MXN",
+    "SGD",
+    "KRW",
+    "ILS",
+  ].sort();
   let from = "CAD";
   let to = "USD";
   let amt = 0;
-  let toAmt = 0;
+  let toAmt = null;
 
   async function handleSubmit() {
-    toAmt = amt ? amt * Math.random() : 0;
+    const res = await fetch(
+      `/.netlify/functions/convert?from=${from}&to=${to}&amt=${amt}`
+    );
+    ({ amt: toAmt } = await res.json());
+  }
 
-    const res = await fetch("/.netlify/functions/convert", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ from, to, amt }),
-    });
-    ({ toAmt } = await res.json());
+  function resetAmt() {
+    toAmt = null;
   }
 </script>
 
@@ -30,8 +44,10 @@
         type="number"
         bind:value={amt}
         min="0"
-        on:keydown={onNumberKeyDown} />
-      <select name="from" bind:value={from}>
+        step="any"
+        on:keydown={onNumberKeyDown}
+        on:input={resetAmt} />
+      <select name="from" bind:value={from} on:input={resetAmt}>
         {#each currencies.filter(c => c !== to) as currency}
           <option value={currency}>{currency}</option>
         {/each}
@@ -39,7 +55,7 @@
 
       <div class="to">to</div>
 
-      <select name="to" bind:value={to}>
+      <select name="to" bind:value={to} on:input={resetAmt}>
         {#each currencies.filter(c => c !== from) as currency}
           <option value={currency}>{currency}</option>
         {/each}
@@ -49,7 +65,7 @@
     <button type="submit" disabled={!amt}>Convert</button>
 
     {#if toAmt}
-      <div transition:fade>{toAmt}</div>
+      <div class="amt" transition:fade>{toAmt}</div>
     {/if}
   </form>
 </main>
@@ -98,5 +114,10 @@
   button {
     margin-top: 10px;
     margin-bottom: 16px;
+  }
+
+  .amt {
+    font-size: 24px;
+    color: darkblue;
   }
 </style>
