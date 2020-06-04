@@ -15,6 +15,8 @@ exports.handler = async (event, _context) => {
     statusCode: 200,
     body: JSON.stringify({
       toAmt: 12,
+      key: process.env.API_KEY,
+      key2: _context.API_KEY
     }),
   };
 };
