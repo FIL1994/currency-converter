@@ -1,12 +1,25 @@
+[dev]
+framework = "#custom"
+command = 'npm run start:dev'
+targetPort = 5000 # The port for your application server, framework or site generator
+port = 8888 # The port that the netlify dev will be accessible on
+publish = 'public'
+autoLaunch = true # a Boolean value that determines if Netlify Dev launches the local server address in your browser
+
+[dev.environment]
+API_KEY = "test"
+
 [build]
 command = 'npm run build'
 publish = 'public'
 functions = 'lambda'
 
-[dev]
-framework = "#custom"
-command = 'npm run start:dev'
-targetPort = 5000 # The port for your application server, framework or site generator
-port = 8080 # The port that the netlify dev will be accessible on
-publish = 'public'
-autoLaunch = true # a Boolean value that determines if Netlify Dev launches the local server address in your browser
+[build.processing]
+skip_processing = false
+
+[build.processing.css]
+bundle = true
+minify = true
+
+[build.processing.html]
+minify = true

@@ -11,7 +11,7 @@
   async function handleSubmit() {
     toAmt = amt ? amt * Math.random() : 0;
 
-    const res = await fetch("/api/convert", {
+    const res = await fetch("/.netlify/functions/convert", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,7 +32,7 @@
         min="0"
         on:keydown={onNumberKeyDown} />
       <select name="from" bind:value={from}>
-        {#each currencies.filter((c) => c !== to) as currency}
+        {#each currencies.filter(c => c !== to) as currency}
           <option value={currency}>{currency}</option>
         {/each}
       </select>
@@ -40,7 +40,7 @@
       <div class="to">to</div>
 
       <select name="to" bind:value={to}>
-        {#each currencies.filter((c) => c !== from) as currency}
+        {#each currencies.filter(c => c !== from) as currency}
           <option value={currency}>{currency}</option>
         {/each}
       </select>
