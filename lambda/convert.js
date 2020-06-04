@@ -8,15 +8,13 @@ exports.handler = async (event, _context) => {
     };
   }
 
-  // console.log(_context, process.env);
-  console.log("API_KEY" in _context, "API_KEY" in process.env);
+  const API_KEY = process.env.API_KEY;
+  console.log({ API_KEY });
 
   return {
     statusCode: 200,
     body: JSON.stringify({
       toAmt: 12,
-      key: process.env.API_KEY,
-      key2: _context.API_KEY
     }),
   };
 };
