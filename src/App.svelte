@@ -114,6 +114,7 @@
   }
 
   input[type="number"] {
+    -moz-appearance: textfield;
     width: 80px;
     text-align: right;
   }
